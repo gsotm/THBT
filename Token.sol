@@ -53,9 +53,6 @@ contract Token is ERC20 {
         return _decimals;
     }
 
-    /**
-     * 增发 指定的数量 _amount为你增发的数量 如填入1000 表示增发1000个
-     */
     function issue(uint256 _amount) public onlyOwner returns (bool){
         _mint(msg.sender, _amount * (10 ** uint256(decimals())));
         emit Issue(_amount);
