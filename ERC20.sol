@@ -221,53 +221,35 @@ contract ERC20 is IERC20,Ownable {
         emit Approval(owner, spender, value);
     }
 
-    /**
-     * @dev Destoys `amount` tokens from `account`.`amount` is then deducted
-     * from the caller's allowance.
-     *
-     * See {_burn} and {_approve}.
-     */
     function _burnFrom(address account, uint256 amount) internal {
         _burn(account, amount);
         _approve(account, msg.sender, _allowances[account][msg.sender].sub(amount));
     }
 
-    /**
-     * 开启全体冻结
-     */
+
     function openFrozen() public onlyOwner returns(bool){
         _frozen = 1;
         return true;
     }
-    /**
-     * 关闭全体冻结
-     */
+
     function closeFrozen() public onlyOwner returns(bool){
         _frozen = 0;
         return true;
     }
 
-    /**
-     * 获取全体冻结状态
-     */
+
     function frozenStatus() public view returns(uint8){
         return _frozen;
     }
 
-    /**
-     * 更新冻结状态
-     * @param _addr 传入的地址
-     * @param _status 冻结状态 0-解冻 1-冻结
-    */
+
     function updateFrozenStatus(address _addr,uint8 _status) public onlyOwner{
         require(_status == 0 || _status == 1,"TRC20: param error");
         require(_frozenAddress[_addr] != _status,"TRC20: address had set this status");
         _frozenAddress[_addr]=_status;
     }
 
-    /**
-     * 返回指定地址是否为冻结状态
-     */
+
     function isFrozen(address _address) public view returns(bool){
         return _frozenAddress[_address] == 1;
     }
